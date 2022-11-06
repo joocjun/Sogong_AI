@@ -21,7 +21,6 @@ def create_demo_text(prompt_path):
     prompt = file.read()
     demo_text = prompt
     file.close()
-
     return demo_text
 
 def decoder_for_gpt3(input, max_length=256, key="None",model="gpt3-code",):
