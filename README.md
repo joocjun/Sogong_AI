@@ -12,8 +12,8 @@
 ### 1.1. gpt_request.py
 gpt_request.py is a python script that generates questions using GPT-3 model.  
 use **class Decoder's decode meethod** to obtain **questions** from the **user_question**.
-- input: user_question (string), user_api_key **(string)**
-- output: [question #1, evidence #1 , inference #1, question #2, evidence #2, ... , Answer] **(list of strings)**
+- Input: user_question (string), user_api_key **(string)**
+- Output: [question #1, evidence #1 , inference #1, question #2, evidence #2, ... , Answer] **(list of strings)**
 
 
 ## 2. For Generating Summary of Top 5 Web Document of a Question
@@ -21,13 +21,13 @@ use **class Decoder's decode meethod** to obtain **questions** from the **user_q
 summary.py is a python script that generates summary of top 5 web documents of a question.  
 operates on **one question at a time**.  
 use **class Summarizer's summarize method** to obtain summary.
-- input: article **(string)**
-- output: [summary,article] **(list of strings)**
+- Input: article **(string)**
+- Output: [summary,article] **(list of strings)**
 
 ## 3. For Reranking of articles of a question
 ### 3.1. rerank.py
 rerank.py is a python script that reranks articles of a question with additional information such as ...  
-use **class Reranker's rerank method** to obtain reranked articles.
+use **class Reranker's rerank method** to obtain reranked articles.  
 operates on **one question at a time**.  
-- input: question **(string)**
-- output: [article #1, article #2, ...] **(list of strings)**
+- Input: question **(string)**
+- Output: [article #1, article #2, ...] **(list of strings)**
