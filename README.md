@@ -27,7 +27,7 @@ use **class Summarizer's summarize method** to obtain summary.
 ## 3. For Reranking of articles of a question
 ### 3.1. rerank.py
 rerank.py is a python script that reranks articles of a question with additional information such as ...  
-use **class Reranker's rerank method** to obtain reranked articles.  
+use **class ReRanker's rerank method** to obtain reranked articles.  
 operates on **one question at a time**.  
-- Input: question **(string)**
-- Output: [article #1, article #2, ...] **(list of strings)**
+- Input: question, explanation, documents **(string)**
+- Output: [(article #1, score), (article #2, score), ...] **(list of tuples in reversed sorted order of score)**
