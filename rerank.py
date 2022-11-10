@@ -7,11 +7,16 @@ class ReRanker:
     def __init__(self):
         self.model = SentenceTransformer("sentence-transformers/sentence-t5-large")
 
-    def rerank(self, question, explanation, docs):
-        doc_embedding = self.model.encode(question+"\n"+explanation)
-        candidate_embeddings = self.model.encode(docs)
-        distances = cosine_similarity([doc_embedding], candidate_embeddings)[0]
+    def rerank(self, input_dict : dict):
+        for question in input_dict.keys():
+            summaries_articles = input_dict[question]                
+            docs = [summary_article[0] for summary_article in summaries_articles]
+            doc_embedding = self.model.encode(question)
+            candidate_embeddings = self.model.encode(docs)
+            distances = cosine_similarity([doc_embedding], candidate_embeddings)[0]
 
-        top_results = zip(docs, distances)
-        return sorted(top_results, key=lambda x: x[1], reverse=True)
+            top_results = zip(distances,summaries_articles[0],summaries_articles[1])
+            new_out = sorted(top_results, key=lambda x: x[0], reverse=True)
+            input_dict[question] = new_out
+        return input_dict
 

@@ -20,14 +20,15 @@ use **class Decoder's decode meethod** to obtain **questions** from the **user_q
 ### 2.1. summary.py
 summary.py is a python script that generates summary of top 5 web documents of a question.  
 operates on **one question at a time**.  
-use **class Summarizer's summarize method** to obtain summary.
-- Input: article **(string)**
-- Output: [summary,article] **(list of strings)**
+use **class Summarizer's summarize method** to obtain summary.  
+the actual questions are used as keys 
+- Input: {"question1":[article1,article2,article3,..],"question2":[article1,article2,article3...]} **(dictionary)**
+- Output: {"question1":[[summary1,article1],[summary2,article2],[summary3,article3],..],"question2":[[summary1,article1],[summary2,article2],[summary3,article3],..]} **(dictionary)**
 
 ## 3. For Reranking of articles of a question
 ### 3.1. rerank.py
 rerank.py is a python script that reranks articles of a question with additional information such as ...  
 use **class ReRanker's rerank method** to obtain reranked articles.  
-operates on **one question at a time**.  
-- Input: question, explanation, documents **(string)**
-- Output: [(article #1, score), (article #2, score), ...] **(list of tuples in reversed sorted order of score)**
+the values are in reversed order based on socres
+- Input: {"question1":[[summary1,article1],[summary2,article2],[summary3,article3],..],"question2":[[summary1,article1],[summary2,article2],[summary3,article3],..]} **(dictionary)**
+- Output: {"question1":[[score1,summary1,article1],[score2,summary2,article2],[score3,summary3,article3],..],"question2":[[score1,summary1,article1],[score2,summary2,article2],[score3,summary3,article3],..]} **(dictionary)**
