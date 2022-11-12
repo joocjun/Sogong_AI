@@ -1,7 +1,5 @@
 openai
 transformers
-json
-time
 datetime
 numpy
 sentence_transformers

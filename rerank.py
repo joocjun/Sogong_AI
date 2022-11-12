@@ -14,9 +14,12 @@ class ReRanker:
             doc_embedding = self.model.encode(question)
             candidate_embeddings = self.model.encode(docs)
             distances = cosine_similarity([doc_embedding], candidate_embeddings)[0]
+            distances = [float(s) for s in distances]
+            # print(len(distances))
 
-            top_results = zip(distances,summaries_articles[0],summaries_articles[1])
+            top_results = list(zip(distances, summaries_articles[0], summaries_articles[1]))
             new_out = sorted(top_results, key=lambda x: x[0], reverse=True)
             input_dict[question] = new_out
+        # print(len(input_dict.keys()))  
         return input_dict
 

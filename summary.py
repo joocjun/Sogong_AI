@@ -8,9 +8,9 @@ class Summarizer():
     def __init__(self):
         print_now()
         self.tokenizer_kwargs = {'truncation':True}
-        # self.summarizer = pipeline("summarization",  model="t5-base", tokenizer="t5-base")
+        self.summarizer = pipeline("summarization",  model="t5-base", tokenizer="t5-base")
 
-        self.summarizer = pipeline("summarization",  model="google/pegasus-large", tokenizer="google/pegasus-large")
+        # self.summarizer = pipeline("summarization",  model="google/pegasus-large", tokenizer="google/pegasus-large")
 
 
     def summarize(self, input_dict):
@@ -22,7 +22,7 @@ class Summarizer():
         return input_dict
 
     def summary_pipeline(self,articles, summarizer,tokenizer_kwargs):
-        summ = summarizer(articles, max_length=512, min_length=30, return_text=True,**tokenizer_kwargs)
+        summ = summarizer(articles, max_length=128, min_length=20, return_text=True,**tokenizer_kwargs)
         out = [sum["summary_text"] for sum in summ]
         return out
         
