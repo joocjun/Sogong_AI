@@ -3,3 +3,4 @@ examples.json
 result.json
 test.ipynb
 __pycache__
+.ipynb_checkpoints

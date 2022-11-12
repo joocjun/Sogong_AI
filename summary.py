@@ -18,6 +18,7 @@ class Summarizer():
             articles = input_dict[question]
             summaries = self.summary_pipeline(articles,summarizer=self.summarizer,tokenizer_kwargs=self.tokenizer_kwargs)
             new_output = list(zip(summaries,articles))
+
             input_dict[question] = new_output
         return input_dict
 
