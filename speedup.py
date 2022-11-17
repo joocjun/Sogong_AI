@@ -11,11 +11,12 @@ import json
 class SpeedyPipeline():
     def __init__(self):
         # print_now()
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        t5tokenizer = AutoTokenizer.from_pretrained("t5-base",truncation=True,torchscript=True)
-        t5model = AutoModelWithLMHead.from_pretrained("t5-base",torchscript=True)
-        self.summarizer = pipeline("summarization",  model=t5model, tokenizer=t5tokenizer,device=self.device)
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        # t5tokenizer = AutoTokenizer.from_pretrained("t5-base",truncation=True,torchscript=True)
+        # t5model = AutoModelWithLMHead.from_pretrained("t5-base",torchscript=True)
+        self.summarizer = pipeline("summarization",  model="t5-base", device=self.device)
         self.model = SentenceTransformer("sentence-transformers/sentence-t5-base")
+        self.tokenizer_kwargs = {'truncation':True}
 
     def process(self,input):
         sub_questions = []
@@ -24,7 +25,8 @@ class SpeedyPipeline():
             sub_questions.append(subproblem["sub_question"]) 
             for document in subproblem["evidence_document"].values(): # input["explanation"]["0"]["evidence_document"]
                 documents.append(document["document"])
-        summaries = self.summary_pipeline(documents,summarizer=self.summarizer)
+        result = self.summarizer(documents, max_length=128, min_length=20, return_text=True,**self.tokenizer_kwargs)
+        summaries = [sum["summary_text"] for sum in result]
         doc_embeddings = self.model.encode(sub_questions)
         candidate_embeddings = self.model.encode(summaries) 
         summaries = [summaries[i:i+5] for i in range(0, len(summaries), 5)]
@@ -45,19 +47,13 @@ class SpeedyPipeline():
         return input
 
 
-
-    def summary_pipeline(self,articles, summarizer):
-        summ = summarizer(articles, max_length=128, min_length=20, return_text=True)
-        out = [sum["summary_text"] for sum in summ]
-        return out
-
     def process_one(self,input):
         sub_questions = []
         documents = []
         for subproblem in input["explanation"].values(): # input["explanation"]["0"]
             sub_questions.append(subproblem["sub_question"]) 
             for document in subproblem["evidence_document"].values(): # input["explanation"]["0"]["evidence_document"]
-                documents.append(self.summary_pipeline([document["document"]],summarizer=self.summarizer)[0])
+                documents.append(self.summarizer([document["document"]], max_length=128, min_length=20, return_text=True,**self.tokenizer_kwargs)[0])
         doc_embeddings = self.model.encode(sub_questions)
         candidate_embeddings = self.model.encode(documents) 
         summaries = [documents[i:i+5] for i in range(0, len(documents), 5)]
