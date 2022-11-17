@@ -24,7 +24,7 @@ class SpeedyPipeline():
             sub_questions.append(subproblem["sub_question"]) 
             for document in subproblem["evidence_document"].values(): # input["explanation"]["0"]["evidence_document"]
                 documents.append(document["document"])
-        result = self.summarizer(documents, max_length=128, min_length=20, return_text=True,**self.tokenizer_kwargs)
+        result = self.summarizer(documents, max_length=64, min_length=20, return_text=True,**self.tokenizer_kwargs)
         summaries = [sum["summary_text"] for sum in result]
         doc_embeddings = self.model.encode(sub_questions)
         candidate_embeddings = self.model.encode(summaries) 
@@ -52,7 +52,7 @@ class SpeedyPipeline():
         for subproblem in input["explanation"].values(): # input["explanation"]["0"]
             sub_questions.append(subproblem["sub_question"]) 
             for document in subproblem["evidence_document"].values(): # input["explanation"]["0"]["evidence_document"]
-                documents.append(self.summarizer([document["document"]], max_length=128, min_length=20, return_text=True,**self.tokenizer_kwargs)[0])
+                documents.append(self.summarizer([document["document"]], max_length=64, min_length=20, return_text=True,**self.tokenizer_kwargs)[0])
         doc_embeddings = self.model.encode(sub_questions)
         candidate_embeddings = self.model.encode(documents) 
         summaries = [documents[i:i+5] for i in range(0, len(documents), 5)]
