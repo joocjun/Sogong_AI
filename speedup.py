@@ -7,7 +7,6 @@ import torch
 import json
 
 
-
 class SpeedyPipeline():
     def __init__(self):
         # print_now()
@@ -67,7 +66,7 @@ class SpeedyPipeline():
             new_out = sorted(top_results, key=lambda x: x[0], reverse=True)
             inner_idx = 0
             for dist,sum in new_out:
-                input["explanation"][str(idx)]["evidence_document"][str(inner_idx)]["document"] = sum
+                input["explanation"][str(idx)]["evidence_document"][str(inner_idx)]["document"] = sum["summary_text"]
                 input["explanation"][str(idx)]["evidence_document"][str(inner_idx)]["score"] = dist
                 inner_idx += 1
             idx+=1
