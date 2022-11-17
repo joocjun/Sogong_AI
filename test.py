@@ -1,4 +1,4 @@
-from speedup import *
+from Sogong_AI.speedup import *
 import time
 
 with open("speedup_input.json", "r") as read_file:

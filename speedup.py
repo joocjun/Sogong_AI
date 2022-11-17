@@ -1,6 +1,6 @@
 from transformers import pipeline
 from transformers import AutoTokenizer, AutoModelWithLMHead
-from utils import *
+from Sogong_AI.utils import *
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 import torch
@@ -16,6 +16,7 @@ class SpeedyPipeline():
         self.summarizer = pipeline("summarization",  model="t5-base", device=self.device)
         self.model = SentenceTransformer("sentence-transformers/sentence-t5-base")
         self.tokenizer_kwargs = {'truncation':True}
+
 
     def process(self,input):
         sub_questions = []

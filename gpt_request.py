@@ -3,7 +3,7 @@ import os
 import json
 import re
 import random
-from utils import *
+from Sogong_AI.utils import *
 
 
 def split_question(gpt_response):
